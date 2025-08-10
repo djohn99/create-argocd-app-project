@@ -1,0 +1,24 @@
+name: Deploy Service via Template
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_name:
+        description: "Service name"
+        required: true
+        type: string
+      environment:
+        description: "Environment"
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    uses: your-org/devops/.github/workflows/argocd-template.yml@main
+    with:
+      service_name: ${{ github.event.inputs.service_name }}
+      environment: ${{ github.event.inputs.environment }}
+      repo_url: https://github.com/your-org/valuesFile.git
+      target_revision: master
+    secrets:
+      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
